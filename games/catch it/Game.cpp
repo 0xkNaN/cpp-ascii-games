@@ -2,12 +2,12 @@
  * @Author: Hassen Rmili
  * @Date:   2023-10-18 23:07:35
  * @Last Modified by:   Hassen Rmili
- * @Last Modified time: 2023-10-18 23:33:02
+ * @Last Modified time: 2023-10-19 23:20:54
  */
 
 #include "Game.h"
 
-#include <iostream>
+Game *Game::instance = 0;
 
 Game::Game()
 {
@@ -30,9 +30,13 @@ bool Game::init()
   SDL_SetWindowTitle(window, "Catch It!");
   SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 
-  running = true;
+  //? Player
+  player = new Player();
+  player->load();
+  gameObjects.push_back(player);
 
   //?
+  running = true;
   return true;
 }
 
@@ -63,9 +67,26 @@ void Game::handleEvents()
 void Game::update()
 {
   level = (int)(SDL_GetTicks() / 10000); //? Level every 10 seconds
-  // std::cout << level << std::endl;
+
+  //? Update GameObjects
+  for (unsigned int i = 0; i < gameObjects.size(); i++)
+  {
+    gameObjects[i]->update();
+  }
 }
 
 void Game::render()
 {
+  //? Clear
+  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+  SDL_RenderClear(renderer);
+
+  //? Render GameObjects
+  for (unsigned int i = 0; i < gameObjects.size(); i++)
+  {
+    gameObjects[i]->draw();
+  }
+
+  //? Swipe
+  SDL_RenderPresent(renderer);
 }

@@ -2,7 +2,7 @@
  * @Author: Hassen Rmili
  * @Date:   2023-10-18 23:23:52
  * @Last Modified by:   Hassen Rmili
- * @Last Modified time: 2023-10-18 23:29:49
+ * @Last Modified time: 2023-10-19 23:24:37
  */
 
 #pragma once
@@ -12,10 +12,18 @@
 class Player : public GameObject
 {
 public:
-  Player() : GameObject() {}
+  Player();
   ~Player() {}
 
-  void load();
-  void render();
-  void draw();
+  virtual void load();
+  virtual void update();
+  virtual void draw();
+
+private:
+  SDL_Color color;
+
+  int acceleration;
+
+  SDL_Point velocity;
+  SDL_Point position;
 };

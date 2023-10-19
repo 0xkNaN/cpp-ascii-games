@@ -1,2 +1,2 @@
 build:
-	g++ main.cpp -lSDL2 -o game
+	g++ ./*.cpp -lSDL2 -o game
