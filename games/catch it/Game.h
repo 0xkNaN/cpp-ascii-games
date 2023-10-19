@@ -2,7 +2,7 @@
  * @Author: Hassen Rmili
  * @Date:   2023-10-18 23:06:43
  * @Last Modified by:   Hassen Rmili
- * @Last Modified time: 2023-10-19 23:02:35
+ * @Last Modified time: 2023-10-19 23:36:47
  */
 
 #pragma one
@@ -26,7 +26,7 @@ public:
     return instance;
   }
 
-  bool init();
+  bool init(const char *title, int width, int height);
   void clean();
 
   void handleEvents();
@@ -36,7 +36,7 @@ public:
   int getWidth() { return wWidth; }
   int getHeight() { return wHeight; }
   SDL_Renderer *getRenderer() { return renderer; }
-  
+
   const Uint8 *getKeyStates() { return keystates; }
 
   bool isRunning() { return running; }

@@ -2,7 +2,7 @@
  * @Author: Hassen Rmili
  * @Date:   2023-10-18 23:07:35
  * @Last Modified by:   Hassen Rmili
- * @Last Modified time: 2023-10-19 23:20:54
+ * @Last Modified time: 2023-10-19 23:40:15
  */
 
 #include "Game.h"
@@ -11,15 +11,15 @@ Game *Game::instance = 0;
 
 Game::Game()
 {
-  wWidth = 1440;
-  wHeight = 720;
-
   level = 0;
   running = false;
 }
 
-bool Game::init()
+bool Game::init(const char *title, int width, int height)
 {
+  wWidth = width;
+  wHeight = height;
+
   if (!!SDL_Init(SDL_INIT_EVERYTHING))
     return false;
 
@@ -27,7 +27,7 @@ bool Game::init()
     return false;
 
   //?
-  SDL_SetWindowTitle(window, "Catch It!");
+  SDL_SetWindowTitle(window, title);
   SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 
   //? Player

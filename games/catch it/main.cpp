@@ -2,7 +2,7 @@
  * @Author: Hassen Rmili
  * @Date:   2023-10-16 21:26:36
  * @Last Modified by:   Hassen Rmili
- * @Last Modified time: 2023-10-19 23:03:29
+ * @Last Modified time: 2023-10-19 23:36:15
  */
 
 #include <iostream>
@@ -21,7 +21,7 @@
 int main(int argc, char const *argv[])
 {
 
-  bool i = TheGame::Instance()->init();
+  bool i = TheGame::Instance()->init("Catch It!", SCREEN_WIDTH, SCREEN_HEIGH);
   if (!i)
   {
     std::cout << SDL_GetError() << std::endl;
