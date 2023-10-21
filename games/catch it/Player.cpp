@@ -2,7 +2,7 @@
  * @Author: Hassen Rmili
  * @Date:   2023-10-19 22:49:01
  * @Last Modified by:   Hassen Rmili
- * @Last Modified time: 2023-10-21 13:33:18
+ * @Last Modified time: 2023-10-21 17:31:28
  */
 
 #include "Player.h"
@@ -17,8 +17,8 @@ void Player::load()
 {
   color = {0, 255, 0, 255};
 
-  speed = 30;
-  acceleration = 2;
+  speed = 15.0f;
+  acceleration = 2.0f;
   //! Player AngVel
 
   velocity = new Vector2D();
@@ -27,46 +27,34 @@ void Player::load()
       (int)(TheGame::Instance()->getHeight() / 2));
 }
 
-void Player::update()
+void Player::update(float deltaFrame)
 {
   const Uint8 *keystates = TheGame::Instance()->getKeyStates();
 
+  //? Direction
   Vector2D *direction = new Vector2D(
       (int)(keystates[SDL_SCANCODE_RIGHT]) - (int)(keystates[SDL_SCANCODE_LEFT]),
       (int)(keystates[SDL_SCANCODE_DOWN]) - (int)(keystates[SDL_SCANCODE_UP]));
+  direction->normalize();
 
-  // if (direction.x != 0 || direction.y != 0)
-  // {
-  //   //! Normalize direction
-  //   //! Use Max Speed
-  // std::cout << "Click" << std::endl;
-  // velocity.x += direction.x * acceleration;
-  // velocity.y += direction.y * acceleration;
+  //? Velocity
+  if (direction->length())
+  {
+    velocity->setX(velocity->getX() + direction->getX() * acceleration);
+    velocity->setY(velocity->getY() + direction->getY() * acceleration);
 
-  // if (velocity.x > speed)
-  // {
-  //   velocity.x = speed;
-  // }
-  // if (velocity.x > speed)
-  // {
-  //   velocity.x = speed;
-  // }
+    if (velocity->length() > speed)
+      velocity->normalize(speed);
+  }
+  else
+  {
+    velocity->setX(0);
+    velocity->setY(0);
+  }
 
-  // if (velocity.y > speed)
-  // {
-  //   velocity.y = speed;
-  // }
-  // }
-  // else
-  // {
-  //! Apply Friction
-  // velocity.x = 0;
-  // velocity.y = 0;
-  // }
-
-  //? Update Player Position based on Veocity
-  // position.x += velocity.x;
-  // position.y += velocity.y;
+  //? Update Player Position based on Velocity
+  position->setX(int(position->getX() + velocity->getX()));
+  position->setY(int(position->getY() + velocity->getY()));
 }
 
 void Player::draw()

@@ -2,7 +2,7 @@
  * @Author: Hassen Rmili
  * @Date:   2023-10-18 23:07:35
  * @Last Modified by:   Hassen Rmili
- * @Last Modified time: 2023-10-19 23:40:15
+ * @Last Modified time: 2023-10-21 13:45:57
  */
 
 #include "Game.h"
@@ -64,14 +64,14 @@ void Game::handleEvents()
   }
 }
 
-void Game::update()
+void Game::update(float deltaFrame)
 {
   level = (int)(SDL_GetTicks() / 10000); //? Level every 10 seconds
 
   //? Update GameObjects
   for (unsigned int i = 0; i < gameObjects.size(); i++)
   {
-    gameObjects[i]->update();
+    gameObjects[i]->update(deltaFrame);
   }
 }
 

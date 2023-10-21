@@ -2,7 +2,7 @@
  * @Author: Hassen Rmili
  * @Date:   2023-10-18 23:06:43
  * @Last Modified by:   Hassen Rmili
- * @Last Modified time: 2023-10-19 23:36:47
+ * @Last Modified time: 2023-10-21 13:46:26
  */
 
 #pragma one
@@ -30,7 +30,7 @@ public:
   void clean();
 
   void handleEvents();
-  void update();
+  void update(float deltaFrame);
   void render();
 
   int getWidth() { return wWidth; }

@@ -2,7 +2,7 @@
  * @Author: Hassen Rmili
  * @Date:   2023-10-16 21:26:36
  * @Last Modified by:   Hassen Rmili
- * @Last Modified time: 2023-10-19 23:36:15
+ * @Last Modified time: 2023-10-21 16:36:35
  */
 
 #include <iostream>
@@ -17,6 +17,8 @@
 #define SCREEN_HEIGH 720
 #define FPS 60
 #define FRAME_RATE 1000.0f / FPS
+
+float deltaFrame = FRAME_RATE;
 
 int main(int argc, char const *argv[])
 {
@@ -33,11 +35,13 @@ int main(int argc, char const *argv[])
     int startFrame = SDL_GetTicks();
 
     TheGame::Instance()->handleEvents();
-    TheGame::Instance()->update();
+    TheGame::Instance()->update(deltaFrame);
     TheGame::Instance()->render();
 
-    if ((SDL_GetTicks() - startFrame) < FRAME_RATE)
-      SDL_Delay(FRAME_RATE - (SDL_GetTicks() - startFrame));
+    deltaFrame = SDL_GetTicks() - startFrame;
+
+    if (deltaFrame < FRAME_RATE)
+      SDL_Delay(FRAME_RATE - deltaFrame);
   }
 
   TheGame::Instance()->clean();

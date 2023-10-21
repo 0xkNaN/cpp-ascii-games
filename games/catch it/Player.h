@@ -17,14 +17,15 @@ public:
   ~Player() {}
 
   virtual void load();
-  virtual void update();
+  virtual void update(float deltaFrame);
   virtual void draw();
 
 private:
   SDL_Color color;
 
-  int speed;
-  int acceleration;
+  float speed;
+  float acceleration;
+  float friction;
 
   Vector2D *velocity;
   Vector2D *position;
