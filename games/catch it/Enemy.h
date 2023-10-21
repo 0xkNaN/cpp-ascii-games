@@ -1,8 +1,8 @@
 /**
  * @Author: Hassen Rmili
- * @Date:   2023-10-18 23:23:52
+ * @Date:   2023-10-21 22:16:49
  * @Last Modified by:   Hassen Rmili
- * @Last Modified time: 2023-10-21 22:56:27
+ * @Last Modified time: 2023-10-21 22:56:39
  */
 
 #pragma once
@@ -10,11 +10,11 @@
 #include "Vector2D.h"
 #include "GameObject.h"
 
-class Player : public GameObject
+class Enemy : public GameObject
 {
 public:
-  Player();
-  ~Player() {}
+  Enemy();
+  ~Enemy() {}
 
   virtual void load(int posX, int posY);
   virtual void update(float deltaFrame);
@@ -30,11 +30,4 @@ private:
 
   Vector2D *velocity;
   Vector2D *position;
-
-  int radius;
-  float rotate;
-
-  SDL_FPoint pT;
-  SDL_FPoint pR;
-  SDL_FPoint pL;
 };

@@ -2,7 +2,7 @@
  * @Author: Hassen Rmili
  * @Date:   2023-10-18 23:06:43
  * @Last Modified by:   Hassen Rmili
- * @Last Modified time: 2023-10-21 13:46:26
+ * @Last Modified time: 2023-10-21 22:58:28
  */
 
 #pragma one
@@ -13,6 +13,7 @@
 
 #include "GameObject.h"
 #include "Player.h"
+#include "Enemy.h"
 
 class Game
 {
@@ -40,6 +41,8 @@ public:
   const Uint8 *getKeyStates() { return keystates; }
 
   bool isRunning() { return running; }
+
+  Player *getPlayer() { return player; }
 
 private:
   Game();

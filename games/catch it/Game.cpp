@@ -2,7 +2,7 @@
  * @Author: Hassen Rmili
  * @Date:   2023-10-18 23:07:35
  * @Last Modified by:   Hassen Rmili
- * @Last Modified time: 2023-10-21 13:45:57
+ * @Last Modified time: 2023-10-21 23:45:31
  */
 
 #include "Game.h"
@@ -32,8 +32,16 @@ bool Game::init(const char *title, int width, int height)
 
   //? Player
   player = new Player();
-  player->load();
+  player->load((int)(wWidth / 2), (int)(wHeight / 2));
   gameObjects.push_back(player);
+
+  //? Enemies
+  for (int i = 0; i < 1; i++)
+  {
+    Enemy *enemy = new Enemy();
+    enemy->load(0, i*100);
+    gameObjects.push_back(enemy);
+  }
 
   //?
   running = true;
