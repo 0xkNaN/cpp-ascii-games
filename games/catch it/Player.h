@@ -2,11 +2,12 @@
  * @Author: Hassen Rmili
  * @Date:   2023-10-18 23:23:52
  * @Last Modified by:   Hassen Rmili
- * @Last Modified time: 2023-10-19 23:24:37
+ * @Last Modified time: 2023-10-21 13:15:35
  */
 
 #pragma once
 
+#include "Vector2D.h"
 #include "GameObject.h"
 
 class Player : public GameObject
@@ -22,8 +23,9 @@ public:
 private:
   SDL_Color color;
 
+  int speed;
   int acceleration;
 
-  SDL_Point velocity;
-  SDL_Point position;
+  Vector2D *velocity;
+  Vector2D *position;
 };

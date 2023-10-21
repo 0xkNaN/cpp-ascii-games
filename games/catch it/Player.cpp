@@ -2,7 +2,7 @@
  * @Author: Hassen Rmili
  * @Date:   2023-10-19 22:49:01
  * @Last Modified by:   Hassen Rmili
- * @Last Modified time: 2023-10-19 23:32:50
+ * @Last Modified time: 2023-10-21 13:33:18
  */
 
 #include "Player.h"
@@ -17,69 +17,64 @@ void Player::load()
 {
   color = {0, 255, 0, 255};
 
+  speed = 30;
   acceleration = 2;
-  // const float maxPSpeed = 20.0f;
-
   //! Player AngVel
 
-  velocity = {0, 0};
-  position = {(int)(TheGame::Instance()->getWidth() / 2), (int)(TheGame::Instance()->getHeight() / 2)};
+  velocity = new Vector2D();
+  position = new Vector2D(
+      (int)(TheGame::Instance()->getWidth() / 2),
+      (int)(TheGame::Instance()->getHeight() / 2));
 }
 
 void Player::update()
 {
   const Uint8 *keystates = TheGame::Instance()->getKeyStates();
 
-  SDL_Point direction = {0, 0};
+  Vector2D *direction = new Vector2D(
+      (int)(keystates[SDL_SCANCODE_RIGHT]) - (int)(keystates[SDL_SCANCODE_LEFT]),
+      (int)(keystates[SDL_SCANCODE_DOWN]) - (int)(keystates[SDL_SCANCODE_UP]));
 
-  if (keystates[SDL_SCANCODE_UP])
-  {
-    direction.y = -1;
-  }
-  if (keystates[SDL_SCANCODE_DOWN])
-  {
-    direction.y = 1;
-  }
-  if (keystates[SDL_SCANCODE_LEFT])
-  {
-    direction.x = -1;
-  }
-  if (keystates[SDL_SCANCODE_RIGHT])
-  {
-    direction.x = 1;
-  }
+  // if (direction.x != 0 || direction.y != 0)
+  // {
+  //   //! Normalize direction
+  //   //! Use Max Speed
+  // std::cout << "Click" << std::endl;
+  // velocity.x += direction.x * acceleration;
+  // velocity.y += direction.y * acceleration;
 
-  if (direction.x != 0 || direction.y != 0)
-  {
-    //! Normalize direction
-    //! Use Max Speed
-    std::cout << "Click" << std::endl;
-    velocity.x += direction.x * acceleration;
-    velocity.y += direction.y * acceleration;
-  }
-  else
-  {
-    //! Apply Friction
-    velocity.x = 0;
-    velocity.y = 0;
-  }
+  // if (velocity.x > speed)
+  // {
+  //   velocity.x = speed;
+  // }
+  // if (velocity.x > speed)
+  // {
+  //   velocity.x = speed;
+  // }
 
-  //? Normalize
-  // float _m = sqrt(pDirection.x * pDirection.x + pDirection.y * pDirection.y);
-  // if (_m == 0)
-  //   _m = 1;
+  // if (velocity.y > speed)
+  // {
+  //   velocity.y = speed;
+  // }
+  // }
+  // else
+  // {
+  //! Apply Friction
+  // velocity.x = 0;
+  // velocity.y = 0;
+  // }
 
   //? Update Player Position based on Veocity
-  position.x += velocity.x;
-  position.y += velocity.y;
+  // position.x += velocity.x;
+  // position.y += velocity.y;
 }
 
 void Player::draw()
 {
   //? Render Player
   SDL_Vertex vertices[] = {
-      {{(float)(position.x), (float)(position.y - 25)}, color, {1, 1}},
-      {{(float)(position.x + 20), (float)(position.y + 25)}, color, {1, 1}},
-      {{(float)(position.x - 20), (float)(position.y + 25)}, color, {1, 1}}};
+      {{(float)(position->getX()), (float)(position->getY() - 25)}, color, {1, 1}},
+      {{(float)(position->getX() + 20), (float)(position->getY() + 25)}, color, {1, 1}},
+      {{(float)(position->getX() - 20), (float)(position->getY() + 25)}, color, {1, 1}}};
   SDL_RenderGeometry(TheGame::Instance()->getRenderer(), NULL, vertices, 3, NULL, 0);
 }
