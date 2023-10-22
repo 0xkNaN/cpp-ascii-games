@@ -2,7 +2,7 @@
  * @Author: Hassen Rmili
  * @Date:   2023-10-19 22:49:01
  * @Last Modified by:   Hassen Rmili
- * @Last Modified time: 2023-10-21 22:49:21
+ * @Last Modified time: 2023-10-22 01:02:34
  */
 
 #include "Player.h"
@@ -32,7 +32,7 @@ void Player::load(int posX, int posY)
   rotate = 0.0f;
 }
 
-void Player::update(float deltaFrame)
+void Player::update()
 {
   const Uint8 *keystates = TheGame::Instance()->getKeyStates();
 
@@ -84,13 +84,13 @@ void Player::update(float deltaFrame)
 void Player::draw()
 {
   //? Render Player
-  pT = {
+  SDL_FPoint pT = {
       (float)(position->getX() + std::cos(rotate * pi / 180) * radius),
       (float)(position->getY() + std::sin(rotate * pi / 180) * radius)};
-  pR = {
+  SDL_FPoint pR = {
       (float)(position->getX() + std::cos((rotate * pi / 180) + (2 * pi / 2.666)) * radius),
       (float)(position->getY() + std::sin((rotate * pi / 180) + (2 * pi / 2.666)) * radius)};
-  pL = {
+  SDL_FPoint pL = {
       (float)(position->getX() + std::cos((rotate * pi / 180) + (-2 * pi / 2.666)) * radius),
       (float)(position->getY() + std::sin((rotate * pi / 180) + (-2 * pi / 2.666)) * radius)};
   // ...

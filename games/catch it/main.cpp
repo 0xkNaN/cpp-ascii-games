@@ -2,7 +2,7 @@
  * @Author: Hassen Rmili
  * @Date:   2023-10-16 21:26:36
  * @Last Modified by:   Hassen Rmili
- * @Last Modified time: 2023-10-21 17:43:33
+ * @Last Modified time: 2023-10-22 00:25:46
  */
 
 #include <iostream>
@@ -35,7 +35,7 @@ int main(int argc, char const *argv[])
     int startFrame = SDL_GetTicks();
 
     TheGame::Instance()->handleEvents();
-    TheGame::Instance()->update(deltaFrame);
+    TheGame::Instance()->update();
     TheGame::Instance()->render();
 
     deltaFrame = SDL_GetTicks() - startFrame;

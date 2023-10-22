@@ -2,7 +2,7 @@
  * @Author: Hassen Rmili
  * @Date:   2023-10-21 22:20:55
  * @Last Modified by:   Hassen Rmili
- * @Last Modified time: 2023-10-22 00:19:24
+ * @Last Modified time: 2023-10-22 00:54:31
  */
 
 #include <cmath>
@@ -22,11 +22,14 @@ void Enemy::load(int posX, int posY)
   speed = 7.0f;
   acceleration = 1.0f;
 
+  minDistanceToPlayer = 100;
+  minDistanceToOtherEnemy = 50;
+
   velocity = new Vector2D();
   position = new Vector2D(posX, posY);
 }
 
-void Enemy::update(float deltaFrame)
+void Enemy::update()
 {
   Player *player = TheGame::Instance()->getPlayer();
   Vector2D *pPosition = player->getPosition();
@@ -36,25 +39,24 @@ void Enemy::update(float deltaFrame)
   //? Distance
   float distance = std::sqrt(
       std::pow(position->getX() - pPosition->getX(), 2) + std::pow(position->getY() - pPosition->getY(), 2));
+  std::cout << distance << std::endl;
 
   //? Direction To player
-  if (distance > 100)
+  direction->setX(pPosition->getX() - position->getX());
+  direction->setY(pPosition->getY() - position->getY());
+  direction->normalize();
+
+  //? Velocity
+  if (distance > minDistanceToPlayer)
   {
-    direction->setX(pPosition->getX() - position->getX());
-    direction->setY(pPosition->getY() - position->getY());
-    direction->normalize();
+    velocity->setX(velocity->getX() + direction->getX() * acceleration);
+    velocity->setY(velocity->getY() + direction->getY() * acceleration);
+    if (velocity->length() > speed)
+      velocity->normalize(speed);
   }
   else
   {
-    direction->setX(0);
-    direction->setY(0);
   }
-
-  //? Velocity
-  velocity->setX(velocity->getX() + direction->getX() * acceleration);
-  velocity->setY(velocity->getY() + direction->getY() * acceleration);
-  if (velocity->length() > speed)
-    velocity->normalize(speed);
 
   //? Position
   position->setX(position->getX() + velocity->getX());
