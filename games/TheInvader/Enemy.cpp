@@ -2,7 +2,7 @@
  * @Author: Hassen Rmili
  * @Date:   2023-10-21 22:20:55
  * @Last Modified by:   Hassen Rmili
- * @Last Modified time: 2023-10-23 01:49:39
+ * @Last Modified time: 2023-10-23 10:39:11
  */
 
 #include <cmath>
@@ -11,7 +11,7 @@
 #include "Game.h"
 #include "Player.h"
 
-Enemy::Enemy()
+Enemy::Enemy() : GameObject()
 {
 }
 
@@ -22,7 +22,6 @@ void Enemy::load(int posX, int posY)
   speed = 2.0f;
   acceleration = 1.0f;
 
-  minDistanceToPlayer = 100;
   maxDistanceToPlayer = 200;
 
   velocity = new Vector2D();
@@ -53,7 +52,7 @@ void Enemy::update()
   }
 
   if (velocity->length() > speed)
-      velocity->normalize(speed);
+    velocity->normalize(speed);
 
   //? Position
   position->setX(position->getX() + velocity->getX());
@@ -62,11 +61,12 @@ void Enemy::update()
 
 void Enemy::draw()
 {
-  //? Render Collider
+  //? Collider
   collider = {(int)(position->getX() - 21), (int)(position->getY() - 11), 42, 22};
   SDL_SetRenderDrawColor(TheGame::Instance()->getRenderer(), 0, 0, 0, 255);
   SDL_RenderDrawRect(TheGame::Instance()->getRenderer(), &collider);
 
+  //? Shape
   SDL_Vertex verticesT[] = {
       {{(float)(position->getX()), (float)(position->getY() - 10)}, color, {1, 1}},
       {{(float)(position->getX() + 20), (float)(position->getY() + 10)}, color, {1, 1}},
@@ -83,18 +83,25 @@ void Enemy::draw()
   SDL_RenderDrawPoint(TheGame::Instance()->getRenderer(), position->getX(), position->getY());
 }
 
-void Enemy::onCollideWith(SDL_Rect *col, SDL_Rect *results)
+void Enemy::onCollideWith(SDL_Rect *col, SDL_Rect *res)
 {
 
   //? Direction To Avoid
-  Vector2D *dir = new Vector2D();
-  dir->setX(col->x - collider.x);
-  dir->setY(col->y - collider.y);
-  dir->normalize();
+  Vector2D *d = new Vector2D();
+  d->setX(col->x - collider.x);
+  d->setY(col->y - collider.y);
+  d->normalize();
 
-  if (dir->length())
+  //? Force
+  Vector2D *f = new Vector2D();
+  f->setX(res->x);
+  f->setY(res->y);
+
+  std::cout << "Force :: " << f->length() << std::endl;
+
+  if (d->length())
   {
-    velocity->setX(velocity->getX() - dir->getX());
-    velocity->setY(velocity->getY() - dir->getY());
+    velocity->setX(velocity->getX() - d->getX() * f->length());
+    velocity->setY(velocity->getY() - d->getY() * f->length());
   }
 }

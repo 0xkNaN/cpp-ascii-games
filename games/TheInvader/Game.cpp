@@ -2,10 +2,13 @@
  * @Author: Hassen Rmili
  * @Date:   2023-10-18 23:07:35
  * @Last Modified by:   Hassen Rmili
- * @Last Modified time: 2023-10-23 02:00:55
+ * @Last Modified time: 2023-10-23 22:56:50
  */
 
 #include "Game.h"
+
+#include "InputManager.h"
+#include "CollisionManager.h"
 
 Game *Game::instance = 0;
 
@@ -62,19 +65,7 @@ void Game::clean()
 
 void Game::handleEvents()
 {
-  SDL_Event event;
-  SDL_PollEvent(&event);
-  keystates = SDL_GetKeyboardState(0);
-
-  switch (event.type)
-  {
-  case SDL_QUIT:
-    running = false;
-    break;
-
-  default:
-    break;
-  }
+  TheInputManager::Instance()->handle();
 }
 
 void Game::update()

@@ -2,7 +2,7 @@
  * @Author: Hassen Rmili
  * @Date:   2023-10-18 23:25:11
  * @Last Modified by:   Hassen Rmili
- * @Last Modified time: 2023-10-23 00:21:32
+ * @Last Modified time: 2023-10-23 22:33:14
  */
 
 #pragma once
@@ -10,6 +10,7 @@
 #include <SDL2/SDL.h>
 
 #include "Vector2D.h"
+#include "InputManager.h"
 
 class GameObject
 {

@@ -2,7 +2,7 @@
  * @Author: Hassen Rmili
  * @Date:   2023-10-19 22:49:01
  * @Last Modified by:   Hassen Rmili
- * @Last Modified time: 2023-10-23 01:55:41
+ * @Last Modified time: 2023-10-23 23:06:14
  */
 
 #include "Player.h"
@@ -12,6 +12,7 @@
 
 #include "constants.h"
 #include "Game.h"
+#include "InputManager.h"
 
 Player::Player() : GameObject()
 {
@@ -33,12 +34,11 @@ void Player::load(int posX, int posY)
 
 void Player::update()
 {
-  const Uint8 *keystates = TheGame::Instance()->getKeyStates();
 
   //? Direction
   Vector2D *direction = new Vector2D(
-      (int)(keystates[SDL_SCANCODE_RIGHT]) - (int)(keystates[SDL_SCANCODE_LEFT]),
-      (int)(keystates[SDL_SCANCODE_DOWN]) - (int)(keystates[SDL_SCANCODE_UP]));
+      (int)(TheInputManager::Instance()->isKeyPressed(SDL_SCANCODE_RIGHT)) - (int)(TheInputManager::Instance()->isKeyPressed(SDL_SCANCODE_LEFT)),
+      (int)(TheInputManager::Instance()->isKeyPressed(SDL_SCANCODE_DOWN)) - (int)(TheInputManager::Instance()->isKeyPressed(SDL_SCANCODE_UP)));
   direction->normalize();
 
   //? Velocity
@@ -51,22 +51,26 @@ void Player::update()
       velocity->normalize(speed);
 
     //? Rotation
-    if (keystates[SDL_SCANCODE_RIGHT])
+    if (TheInputManager::Instance()->isKeyPressed(SDL_SCANCODE_RIGHT))
       rotate = 0;
-    if (keystates[SDL_SCANCODE_DOWN])
+    if (TheInputManager::Instance()->isKeyPressed(SDL_SCANCODE_DOWN))
       rotate = 90;
-    if (keystates[SDL_SCANCODE_LEFT])
+    if (TheInputManager::Instance()->isKeyPressed(SDL_SCANCODE_LEFT))
       rotate = 180;
-    if (keystates[SDL_SCANCODE_UP])
+    if (TheInputManager::Instance()->isKeyPressed(SDL_SCANCODE_UP))
       rotate = 270;
     // ...
-    if (keystates[SDL_SCANCODE_RIGHT] && keystates[SDL_SCANCODE_DOWN])
+    if (TheInputManager::Instance()->isKeyPressed(SDL_SCANCODE_RIGHT) &&
+        TheInputManager::Instance()->isKeyPressed(SDL_SCANCODE_DOWN))
       rotate = 45;
-    if (keystates[SDL_SCANCODE_DOWN] && keystates[SDL_SCANCODE_LEFT])
+    if (TheInputManager::Instance()->isKeyPressed(SDL_SCANCODE_DOWN) &&
+        TheInputManager::Instance()->isKeyPressed(SDL_SCANCODE_LEFT))
       rotate = 135;
-    if (keystates[SDL_SCANCODE_LEFT] && keystates[SDL_SCANCODE_UP])
+    if (TheInputManager::Instance()->isKeyPressed(SDL_SCANCODE_LEFT) &&
+        TheInputManager::Instance()->isKeyPressed(SDL_SCANCODE_UP))
       rotate = 225;
-    if (keystates[SDL_SCANCODE_UP] && keystates[SDL_SCANCODE_RIGHT])
+    if (TheInputManager::Instance()->isKeyPressed(SDL_SCANCODE_UP) &&
+        TheInputManager::Instance()->isKeyPressed(SDL_SCANCODE_RIGHT))
       rotate = 315;
   }
   else
@@ -83,7 +87,7 @@ void Player::update()
 void Player::draw()
 {
   //? Render Collider
-  collider = {(int)(position->getX() - radius*2), (int)(position->getY() - radius*2), radius * 4, radius * 4};
+  collider = {(int)(position->getX() - radius * 2), (int)(position->getY() - radius * 2), radius * 4, radius * 4};
   SDL_SetRenderDrawColor(TheGame::Instance()->getRenderer(), 0, 0, 0, 255);
   SDL_RenderDrawRect(TheGame::Instance()->getRenderer(), &collider);
 
